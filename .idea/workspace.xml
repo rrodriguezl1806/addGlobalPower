@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bdafd9df-0afa-48a2-a965-2356b4732bb7" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1UtH5QWpFyOPlLC8I2STxKK7T2f" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration name="AddGlobalPowerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="addGlobalPower" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.addGlobalPower.AddGlobalPowerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bdafd9df-0afa-48a2-a965-2356b4732bb7" name="Default Changelist" comment="" />
+      <created>1576168787093</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1576168787093</updated>
+      <workItem from="1576168792081" duration="5518000" />
+    </task>
+    <task id="LOCAL-00001" summary="added entities (Product and User)">
+      <created>1576170212655</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1576170212655</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added entities (Product and User)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added entities (Product and User)" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="453" y="260" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576169449525">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="453" y="260" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1576169449525" />
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1576170055624">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1576170055624" />
+    <state x="218" y="51" key="CommitChangelistDialog2" timestamp="1576170212472">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="218" y="51" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1576170212472" />
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1576170144772">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1576170144772" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1576170144771">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1576170144771" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1576170144771">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1576170144771" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1576170144772">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1576170144772" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1576170288278">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1576170288278" />
+  </component>
+</project>

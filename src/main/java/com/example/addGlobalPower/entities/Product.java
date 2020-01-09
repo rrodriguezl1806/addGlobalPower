@@ -8,61 +8,53 @@ import javax.persistence.Id;
 public class Product {
     @Id
     @GeneratedValue
-    private Integer id;
+    private long id;
     private String name;
     private String category;
     private Integer price;
     private String description;
     private Integer quantityAvailable;
+    private Integer quantityBought;
+    private Integer likes;
+    private Integer assessment;
 
     public Product() {
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCategory() {
         return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Integer getQuantityAvailable() {
         return quantityAvailable;
     }
 
-    public void setQuantityAvailable(Integer quantityAvailable) {
-        this.quantityAvailable = quantityAvailable;
+    public Integer getQuantityBought() {
+        return quantityBought;
     }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public Integer getAssessment() {
+        return assessment;
+    }
+
 }
