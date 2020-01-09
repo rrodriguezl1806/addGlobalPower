@@ -1,27 +1,49 @@
 package com.example.addGlobalPower.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue
-    private Integer id;
+    @Column(name = "ID")
+    private long id;
+
+    @NotNull
+    @Size(min = 1, max = 10, message = "The first name must be between 1 and 10 characters")
+    @Column(name = "FIRST_NAME")
     private String firstName;
+
+    @Size(min = 1, max = 20, message = "The first name must be between 1 and 10 characters")
     private String lastName;
+
+    @NotNull
+    @Email
+    private String email;
+
     private Integer phone;
+
+    @NotNull
     private Integer cardNumber;
+
+    @NotNull
+    private String role;
+
+    @OneToMany
+    private List<ProductUser> productUser;
 
     public User() {
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -41,6 +63,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Integer getPhone() {
         return phone;
     }
@@ -56,4 +86,23 @@ public class User {
     public void setCardNumber(Integer cardNumber) {
         this.cardNumber = cardNumber;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<ProductUser> getProductUser() {
+        return productUser;
+    }
+
+    public void setProductUser(List<ProductUser> productUser) {
+        this.productUser = productUser;
+    }
+
+
+
 }
