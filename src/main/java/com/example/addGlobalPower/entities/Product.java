@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+
+//@Data
 @Entity
 public class Product {
     @Id
@@ -15,7 +17,7 @@ public class Product {
     private long id;
 
     @NotNull
-    @Size(min = 1, max = 10, message = "The product's name must be between 1 and 10 characters")
+    @Size(min = 1, max = 20, message = "The product's name must be between 1 and 10 characters")
     private String name;
 
     @NotNull
@@ -24,7 +26,7 @@ public class Product {
     @NotNull
     private Integer price;
 
-    @Size(max = 20)
+    @Size(max = 100)
     private String description;
 
     private Integer quantityAvailable;
@@ -37,7 +39,21 @@ public class Product {
     public Product() {
     }
 
-    public long getId() {
+    public Product(long id,
+			@NotNull @Size(min = 1, max = 10, message = "The product's name must be between 1 and 10 characters") String name,
+			@NotNull String category, @NotNull Integer price, @Size(max = 20) String description,
+			Integer quantityAvailable, Integer assessment, List<ProductUser> productUser) {
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.price = price;
+		this.description = description;
+		this.quantityAvailable = quantityAvailable;
+		this.assessment = assessment;
+		this.productUser = productUser;
+	}
+
+	public long getId() {
         return id;
     }
 

@@ -25,7 +25,7 @@ public class User {
     @Email
     private String email;
 
-    private Integer phone;
+    private String phone;
 
     @NotNull
     private Integer cardNumber;
@@ -39,7 +39,22 @@ public class User {
     public User() {
     }
 
-    public long getId() {
+    public User(long id,
+			@NotNull @Size(min = 1, max = 10, message = "The first name must be between 1 and 10 characters") String firstName,
+			@Size(min = 1, max = 20, message = "The first name must be between 1 and 10 characters") String lastName,
+			@NotNull @Email String email, String phone, @NotNull Integer cardNumber, @NotNull String role,
+			List<ProductUser> productUser) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.cardNumber = cardNumber;
+		this.role = role;
+		this.productUser = productUser;
+	}
+
+	public long getId() {
         return id;
     }
 
@@ -71,11 +86,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

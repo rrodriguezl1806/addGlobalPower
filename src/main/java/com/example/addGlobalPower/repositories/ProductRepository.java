@@ -1,8 +1,8 @@
 package com.example.addGlobalPower.repositories;
-
-import com.example.addGlobalPower.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import com.example.addGlobalPower.entities.Product;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }
