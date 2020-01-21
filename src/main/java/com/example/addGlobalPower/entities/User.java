@@ -33,7 +33,7 @@ public class User {
     @NotNull
     private String role;
 
-    @OneToMany(targetEntity = ProductUser.class)
+    @OneToMany(mappedBy = "user")
     private List<ProductUser> productUser;
 
     public User() {

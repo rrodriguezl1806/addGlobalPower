@@ -34,7 +34,7 @@ public class Product {
 
     private Integer assessment;
 
-    @OneToMany(targetEntity = ProductUser.class)
+    @OneToMany(mappedBy = "product")
     private List<ProductUser> productUser;
 
     public Product() {

@@ -12,12 +12,12 @@ public class ProductUser {
     @GeneratedValue
     private long id;
 
-    @ManyToOne(targetEntity = Product.class)
-    @JoinColumn(name = "productId")
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "userId")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public ProductUser() {
