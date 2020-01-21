@@ -3,6 +3,7 @@ package com.example.addGlobalPower.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -11,10 +12,12 @@ public class ProductUser {
     @GeneratedValue
     private long id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Product.class)
+    @JoinColumn(name = "productId")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "userId")
     private User user;
 
     public ProductUser() {

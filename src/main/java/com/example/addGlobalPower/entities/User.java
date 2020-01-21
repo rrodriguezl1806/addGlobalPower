@@ -33,26 +33,11 @@ public class User {
     @NotNull
     private String role;
 
-    @OneToMany
+    @OneToMany(targetEntity = ProductUser.class)
     private List<ProductUser> productUser;
 
     public User() {
     }
-
-    public User(long id,
-			@NotNull @Size(min = 1, max = 10, message = "The first name must be between 1 and 10 characters") String firstName,
-			@Size(min = 1, max = 20, message = "The first name must be between 1 and 10 characters") String lastName,
-			@NotNull @Email String email, String phone, @NotNull Integer cardNumber, @NotNull String role,
-			List<ProductUser> productUser) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phone;
-		this.cardNumber = cardNumber;
-		this.role = role;
-		this.productUser = productUser;
-	}
 
 	public long getId() {
         return id;

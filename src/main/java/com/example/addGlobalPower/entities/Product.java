@@ -1,12 +1,13 @@
 package com.example.addGlobalPower.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 
 //@Data
@@ -33,27 +34,13 @@ public class Product {
 
     private Integer assessment;
 
-    @OneToMany
+    @OneToMany(targetEntity = ProductUser.class)
     private List<ProductUser> productUser;
 
     public Product() {
     }
 
-    public Product(long id,
-			@NotNull @Size(min = 1, max = 10, message = "The product's name must be between 1 and 10 characters") String name,
-			@NotNull String category, @NotNull Integer price, @Size(max = 20) String description,
-			Integer quantityAvailable, Integer assessment, List<ProductUser> productUser) {
-		this.id = id;
-		this.name = name;
-		this.category = category;
-		this.price = price;
-		this.description = description;
-		this.quantityAvailable = quantityAvailable;
-		this.assessment = assessment;
-		this.productUser = productUser;
-	}
-
-	public long getId() {
+    public long getId() {
         return id;
     }
 
@@ -114,6 +101,9 @@ public class Product {
     }
 
     public void setProductUser(List<ProductUser> productUser) {
-        this.productUser = productUser;
-    }
+		this.productUser = productUser;
+	}
+
 }
+
+	
