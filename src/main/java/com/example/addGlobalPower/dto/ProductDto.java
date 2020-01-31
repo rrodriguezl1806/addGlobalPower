@@ -1,25 +1,33 @@
 package com.example.addGlobalPower.dto;
 
+import java.util.Date;
+
 public class ProductDto {
     private long id;
     private String name;
     private String category;
     private Integer price;
     private String description;
-    private Integer quantityAvailable;
-    private Integer assessment;
+    private Integer likes;
+    private Integer noLikes;
+    private Integer sold;
+    private String photo;
+    private Date created_date;
 
     public ProductDto() {
     }
 
-    public ProductDto(long id, String name, String category, Integer price, String description, Integer quantityAvailable, Integer assessment) {
+    public ProductDto(long id, String name, String category, Integer price, String description, Integer likes, Integer noLikes, Integer sold, String photo, Date created_date) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
         this.description = description;
-        this.quantityAvailable = quantityAvailable;
-        this.assessment = assessment;
+        this.likes = likes;
+        this.noLikes = noLikes;
+        this.sold = sold;
+        this.photo = photo;
+        this.created_date = created_date;
     }
 
     public long getId() {
@@ -62,19 +70,43 @@ public class ProductDto {
         this.description = description;
     }
 
-    public Integer getQuantityAvailable() {
-        return quantityAvailable;
+    public Integer getLikes() {
+        return likes;
     }
 
-    public void setQuantityAvailable(Integer quantityAvailable) {
-        this.quantityAvailable = quantityAvailable;
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
-    public Integer getAssessment() {
-        return assessment;
+    public Integer getNoLikes() {
+        return noLikes;
     }
 
-    public void setAssessment(Integer assessment) {
-        this.assessment = assessment;
+    public void setNoLikes(Integer noLikes) {
+        this.noLikes = noLikes;
+    }
+
+    public Integer getSold() {
+        return sold;
+    }
+
+    public void setSold(Integer sold) {
+        this.sold = sold;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public Date getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(Date created_date) {
+        this.created_date = created_date;
     }
 }

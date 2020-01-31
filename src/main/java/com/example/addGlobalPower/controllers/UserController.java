@@ -38,23 +38,10 @@ class UserController {
 		this.productUserRepository = productUserRepository;
 	}
 
-//	@GetMapping("")
-//	List<User> all() {
-//		return userRepository.findAll();
-//	}
-
-//	@GetMapping("/{id}")
-//	User userById(@PathVariable Long id) {
-//		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-//	}
-
-	// @GetMapping("/userProducts/{id}")
-	// Product userProducts(@PathVariable Long id) {
-	// 	return repository.findById(id)
-	// 		.map(user -> {
-	// 			return user.getProductUser();
-	// 		});
-	// }
+	@GetMapping("/{id}")
+	User userById(@PathVariable Long id) {
+		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+	}
 
 	@PostMapping("")
 	User newUser(@RequestBody User newUser) {
@@ -69,8 +56,7 @@ class UserController {
 				user.setLastName(newUser.getLastName());
 				user.setEmail(newUser.getEmail());
 				user.setPhone(newUser.getPhone());
-				user.setCardNumber(newUser.getCardNumber());
-				user.setRole(newUser.getRole());
+				user.setAddress(newUser.getAddress());
 				return userRepository.save(user);
 			})
 			.orElseGet(() -> {
@@ -84,6 +70,7 @@ class UserController {
 		userRepository.deleteById(id);
 	}
 
+	// Add product to a user
 	@PostMapping("{userId}/product/{productId}")
 	ResponseEntity addProduct(@PathVariable Long userId, @PathVariable Long productId){
 		ProductUser productUser = new ProductUser();
@@ -93,6 +80,7 @@ class UserController {
 		return ResponseEntity.ok().build();
 	}
 
+	// Get all products given userId
 	@GetMapping("/{id}/products")
 	List<ProductDto> getProducts (@PathVariable Long id){
 		User user = userRepository.getOne(id);
@@ -103,8 +91,18 @@ class UserController {
 					, product.getCategory()
 					, product.getPrice()
 					, product.getDescription()
-					, product.getQuantityAvailable()
-					, product.getAssessment());
+					, product.getLikes()
+					, product.getNoLikes()
+					, product.getSold()
+					, product.getPhoto()
+					, productUser.getCreated_date());
 		}).collect(Collectors.toList());
 	}
+
+	// Add count likes
+	// @PutMapping("{userId}/product/{productId}/like")
+	// addCountLike(@PathVariable Long userId, @PathVariable Long productId) {
+
+	// }
+
 }

@@ -29,11 +29,7 @@ public class User {
 
     private String phone;
 
-    @NotNull
-    private Integer cardNumber;
-
-    @NotNull
-    private String role;
+    private String address;
 
     @OneToMany(mappedBy = "user")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -82,28 +78,20 @@ public class User {
         this.phone = phone;
     }
 
-    public Integer getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(Integer cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public List<ProductUser> getProductUser() {
         return productUser;
     }
 
     public void setProductUser(List<ProductUser> productUser) {
         this.productUser = productUser;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
 

@@ -2,6 +2,8 @@ package com.example.addGlobalPower.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +24,8 @@ public class ProductUser {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    private Date created_date = new Date(); 
 
     public ProductUser() {
     }
@@ -48,5 +52,13 @@ public class ProductUser {
 
     public void setUser(final User user) {
         this.user = user;
+    }
+
+    public Date getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(Date created_date) {
+        this.created_date = created_date;
     }
 }

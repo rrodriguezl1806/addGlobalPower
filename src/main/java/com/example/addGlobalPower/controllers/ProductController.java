@@ -49,8 +49,6 @@ public class ProductController {
 				product.setCategory(newProduct.getCategory());
 				product.setPrice(newProduct.getPrice());
 				product.setDescription(newProduct.getDescription());
-				product.setQuantityAvailable(newProduct.getQuantityAvailable());
-				product.setAssessment(newProduct.getAssessment());
 				return repository.save(product);
 		})
 		.orElseGet(() -> {

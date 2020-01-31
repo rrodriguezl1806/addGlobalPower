@@ -2,6 +2,7 @@ package com.example.addGlobalPower.entities;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,12 +31,16 @@ public class Product {
     @Size(max = 100)
     private String description;
 
-    private Integer quantityAvailable;
-
-    private Integer assessment;
-
     @OneToMany(mappedBy = "product")
     private List<ProductUser> productUser;
+
+    private Integer likes = 0;
+
+    private Integer noLikes = 0;
+
+    private Integer sold = 0;
+
+    private String photo;
 
     public Product() {
     }
@@ -80,22 +85,6 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getQuantityAvailable() {
-        return quantityAvailable;
-    }
-
-    public void setQuantityAvailable(Integer quantityAvailable) {
-        this.quantityAvailable = quantityAvailable;
-    }
-
-    public Integer getAssessment() {
-        return assessment;
-    }
-
-    public void setAssessment(Integer assessment) {
-        this.assessment = assessment;
-    }
-
     public List<ProductUser> getProductUser() {
         return productUser;
     }
@@ -103,6 +92,38 @@ public class Product {
     public void setProductUser(List<ProductUser> productUser) {
 		this.productUser = productUser;
 	}
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getNoLikes() {
+        return noLikes;
+    }
+
+    public void setNoLikes(Integer noLikes) {
+        this.noLikes = noLikes;
+    }
+
+    public Integer getSold() {
+        return sold;
+    }
+
+    public void setSold(Integer sold) {
+        this.sold = sold;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
 }
 
