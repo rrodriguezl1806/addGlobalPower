@@ -1,5 +1,7 @@
 package com.example.addGlobalPower.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -34,6 +36,7 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "user")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ProductUser> productUser;
 
     public User() {

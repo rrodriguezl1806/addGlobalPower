@@ -31,7 +31,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	Product ProductById(@PathVariable Long id) {
+	Product productById(@PathVariable Long id) {
 		return repository.findById(id)
 			.orElseThrow(() -> new ProductNotFoundException(id));
 	}
