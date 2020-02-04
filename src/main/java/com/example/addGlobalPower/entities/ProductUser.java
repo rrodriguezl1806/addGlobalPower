@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,6 +27,10 @@ public class ProductUser {
     private User user;
 
     private Date created_date = new Date(); 
+
+    private Boolean userLike = false;
+
+    private Boolean bought = false;
 
     public ProductUser() {
     }
@@ -60,5 +65,21 @@ public class ProductUser {
 
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
+    }
+
+    public Boolean getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(Boolean userLike) {
+        this.userLike = userLike;
+    }
+
+    public Boolean getBought() {
+        return bought;
+    }
+
+    public void setBought(Boolean bought) {
+        this.bought = bought;
     }
 }

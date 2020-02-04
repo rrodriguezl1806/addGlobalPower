@@ -9,25 +9,27 @@ public class ProductDto {
     private Integer price;
     private String description;
     private Integer likes;
-    private Integer noLikes;
     private Integer sold;
     private String photo;
     private Date created_date;
+    private Boolean userLike;
+    private Boolean bought;
 
     public ProductDto() {
     }
 
-    public ProductDto(long id, String name, String category, Integer price, String description, Integer likes, Integer noLikes, Integer sold, String photo, Date created_date) {
+    public ProductDto(long id, String name, String category, Integer price, String description, Integer likes, Integer sold, String photo, Date created_date, Boolean userLike, Boolean bought) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
         this.description = description;
         this.likes = likes;
-        this.noLikes = noLikes;
         this.sold = sold;
         this.photo = photo;
         this.created_date = created_date;
+        this.userLike = userLike;
+        this.bought = bought;
     }
 
     public long getId() {
@@ -78,14 +80,6 @@ public class ProductDto {
         this.likes = likes;
     }
 
-    public Integer getNoLikes() {
-        return noLikes;
-    }
-
-    public void setNoLikes(Integer noLikes) {
-        this.noLikes = noLikes;
-    }
-
     public Integer getSold() {
         return sold;
     }
@@ -108,5 +102,21 @@ public class ProductDto {
 
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
+    }
+
+    public Boolean getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(Boolean userLike) {
+        this.userLike = userLike;
+    }
+
+    public Boolean getBought() {
+        return bought;
+    }
+
+    public void setBought(Boolean bought) {
+        this.bought = bought;
     }
 }

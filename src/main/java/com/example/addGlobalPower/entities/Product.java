@@ -36,8 +36,6 @@ public class Product {
 
     private Integer likes = 0;
 
-    private Integer noLikes = 0;
-
     private Integer sold = 0;
 
     private String photo;
@@ -99,14 +97,6 @@ public class Product {
 
     public void setLikes(Integer likes) {
         this.likes = likes;
-    }
-
-    public Integer getNoLikes() {
-        return noLikes;
-    }
-
-    public void setNoLikes(Integer noLikes) {
-        this.noLikes = noLikes;
     }
 
     public Integer getSold() {

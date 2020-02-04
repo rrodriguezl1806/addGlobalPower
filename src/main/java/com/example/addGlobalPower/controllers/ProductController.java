@@ -2,6 +2,7 @@ package com.example.addGlobalPower.controllers;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,47 +20,65 @@ import com.example.exception.ProductNotFoundException;
 @RequestMapping("/products")
 public class ProductController {
 
-	private final ProductRepository repository;
+	private ProductRepository productRepository;
 	
-	ProductController(ProductRepository repository) {
-		this.repository = repository;
+	ProductController(ProductRepository productRepository) {
+		this.productRepository = productRepository;
 	}
 	
 	@GetMapping("")
 	List<Product> all() {
-		return repository.findAll();
+		return productRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	Product productById(@PathVariable Long id) {
-		return repository.findById(id)
+		return productRepository.findById(id)
 			.orElseThrow(() -> new ProductNotFoundException(id));
 	}
 	
 	@PostMapping("")
 	Product newProduct(@RequestBody Product newProduct) {
-		return repository.save(newProduct);
+		return productRepository.save(newProduct);
 	}
 
 	@PutMapping("/{id}")
 	Product updateProduct(@RequestBody Product newProduct, @PathVariable Long id) {
-		return repository.findById(id)
+		return productRepository.findById(id)
 			.map(product -> {
 				product.setName(newProduct.getName());
 				product.setCategory(newProduct.getCategory());
 				product.setPrice(newProduct.getPrice());
 				product.setDescription(newProduct.getDescription());
-				return repository.save(product);
+				return productRepository.save(product);
 		})
 		.orElseGet(() -> {
 			newProduct.setId(id);
-        return repository.save(newProduct);
+        return productRepository.save(newProduct);
 		});
 	}
 
 	@DeleteMapping("/{id}")
 	void deleteProduct(@PathVariable Long id) {
-		repository.deleteById(id);
+		productRepository.deleteById(id);
+	}
+
+	// Count likes
+	@GetMapping("{productId}/likes")
+	Integer countLikes(@PathVariable final Long productId) {
+		return productRepository.findById(productId).map(product -> {
+			Integer likes = product.getLikes();
+			return likes;
+		}).orElseThrow(() -> new ProductNotFoundException(productId));
+	}
+
+	// Count sold
+	@GetMapping("{productId}/sold")
+	Integer countSold(@PathVariable final Long productId) {
+		return productRepository.findById(productId).map(product -> {
+			Integer sold = product.getSold();
+			return sold;
+		}).orElseThrow(() -> new ProductNotFoundException(productId));
 	}
 	
 }
