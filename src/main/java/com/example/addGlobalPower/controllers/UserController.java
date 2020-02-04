@@ -1,13 +1,6 @@
 package com.example.addGlobalPower.controllers;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.addGlobalPower.dto.ProductDto;
-import com.example.addGlobalPower.entities.Product;
-import com.example.addGlobalPower.entities.ProductUser;
-import com.example.addGlobalPower.repositories.ProductRepository;
-import com.example.addGlobalPower.repositories.ProductUserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,105 +12,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.addGlobalPower.entities.User;
-import com.example.addGlobalPower.repositories.UserRepository;
-import com.example.exception.UserNotFoundException;
+import com.example.addGlobalPower.services.UserService;
 
 @RestController
 @RequestMapping("/users")
 class UserController {
 
-	private UserRepository userRepository;
-	private ProductRepository productRepository;
-	private ProductUserRepository productUserRepository;
+	private UserService userService;
 
-	public UserController(final UserRepository repository, final ProductRepository productRepository, final ProductUserRepository productUserRepository) {
-		this.userRepository = repository;
-		this.productRepository = productRepository;
-		this.productUserRepository = productUserRepository;
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
-	@GetMapping("/{id}")
-	User userById(@PathVariable final Long id) {
-		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+	// Get user by id
+	@GetMapping("/{userId}")
+	ResponseEntity<Object> userById(@PathVariable Long userId) {
+		return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
 	}
 
+	// Create new user
 	@PostMapping("")
-	User newUser(@RequestBody final User newUser) {
-		return userRepository.save(newUser);
+	ResponseEntity<Object> newUser(@RequestBody  User newUser) {
+		return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
-	User updateUser(@RequestBody final User newUser, @PathVariable final Long id) {
-		return userRepository.findById(id)
-			.map(user -> {
-				user.setFirstName(newUser.getFirstName());
-				user.setLastName(newUser.getLastName());
-				user.setEmail(newUser.getEmail());
-				user.setPhone(newUser.getPhone());
-				user.setAddress(newUser.getAddress());
-				return userRepository.save(user);
-			})
-			.orElseGet(() -> {
-				newUser.setId(id);
-					return userRepository.save(newUser);
-			});
-		}
+	// Update user
+	@PutMapping("/{userId}")
+	ResponseEntity<Object> updateUser(@RequestBody  User newUser, @PathVariable  Long userId) {
+		return new ResponseEntity<>(userService.updateUser(newUser, userId), HttpStatus.OK);
+	}
 
-	@DeleteMapping("/{id}")
-	void deleteUser(@PathVariable final Long id) {
-		userRepository.deleteById(id);
+	@DeleteMapping("/{userId}")
+	ResponseEntity<Object> deleteUser(@PathVariable  Long userId) {
+		userService.deleteUser(userId);
+		return new ResponseEntity<>("User is deleted successfully", HttpStatus.OK);
 	}
 
 	// Like product
 	@PostMapping("{userId}/product/{productId}/userLike")
-	ResponseEntity likeProduct(@PathVariable final Long userId, @PathVariable final Long productId){
-		final ProductUser productUser = new ProductUser();
-		productUser.setProduct(productRepository.getOne(productId));
-		productUser.setUser(userRepository.getOne(userId));
-		boolean like = productUser.getUserLike();
-		Integer likes = productUser.getProduct().getLikes();
-		productUser.setUserLike(!like);
-		if (!like) {
-			productUser.getProduct().setLikes(likes + 1);
-		} else {
-			productUser.getProduct().setLikes(Math.decrementExact(likes - 1));
-		}
-		productUserRepository.save(productUser);
+	ResponseEntity<Object> likeProduct(@PathVariable  Long userId, @PathVariable  Long productId){
+		userService.likeProduct(userId, productId);
 		return ResponseEntity.ok().build();
 	}
 
-	// buy product
+	// Buy product
 	@PostMapping("{userId}/product/{productId}/buy")
-	ResponseEntity boughtProduct(@PathVariable final Long userId, @PathVariable final Long productId){
-		final ProductUser productUser = new ProductUser();
-		productUser.setProduct(productRepository.getOne(productId));
-		productUser.setUser(userRepository.getOne(userId));
-
-		Integer sold = productUser.getProduct().getSold();
-		productUser.setBought(true);
-		productUser.getProduct().setSold(sold + 1);
-		productUserRepository.save(productUser);
+	ResponseEntity<Object> boughtProduct(@PathVariable  Long userId, @PathVariable  Long productId){
+		userService.buyProduct(userId, productId);
 		return ResponseEntity.ok().build();
 	}
 
 	// Get all products given userId
-	@GetMapping("/{id}/products")
-	List<ProductDto> getProducts (@PathVariable final Long id){
-		final User user = userRepository.getOne(id);
-		return user.getProductUser().stream().map(productUser -> {
-			final Product product = productUser.getProduct();
-			return new ProductDto(
-						product.getId()
-					, product.getName()
-					, product.getCategory()
-					, product.getPrice()
-					, product.getDescription()
-					, product.getLikes()
-					, product.getSold()
-					, product.getPhoto()
-					, productUser.getCreated_date()
-					, productUser.getUserLike()
-					, productUser.getBought());
-		}).collect(Collectors.toList());
+	@GetMapping("/{userId}/products")
+	ResponseEntity<Object> getProductsByUser (@PathVariable  Long userId){
+		return new ResponseEntity<>(userService.getProductsByUser(userId), HttpStatus.OK);
 	}
 }

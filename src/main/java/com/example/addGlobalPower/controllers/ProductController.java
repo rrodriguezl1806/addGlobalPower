@@ -1,7 +1,6 @@
 package com.example.addGlobalPower.controllers;
 
-import java.util.List;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,72 +12,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.addGlobalPower.entities.Product;
-import com.example.addGlobalPower.repositories.ProductRepository;
-import com.example.exception.ProductNotFoundException;
+import com.example.addGlobalPower.services.ProductService;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
-	private ProductRepository productRepository;
+	private ProductService productService;
 	
-	ProductController(ProductRepository productRepository) {
-		this.productRepository = productRepository;
+	ProductController(ProductService productService) {
+		this.productService = productService;
 	}
 	
+	// Get all Products
 	@GetMapping("")
-	List<Product> all() {
-		return productRepository.findAll();
+	ResponseEntity<Object> allProducts() {
+		return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
 	}
 
+	// Get Product by productId
 	@GetMapping("/{id}")
-	Product productById(@PathVariable Long id) {
-		return productRepository.findById(id)
-			.orElseThrow(() -> new ProductNotFoundException(id));
+	ResponseEntity<Object> productById(@PathVariable Long id) {
+		return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
 	}
 	
+	// Create new Product
 	@PostMapping("")
-	Product newProduct(@RequestBody Product newProduct) {
-		return productRepository.save(newProduct);
+	ResponseEntity<Object> newProduct(@RequestBody Product newProduct) {
+		return new ResponseEntity<>(productService.createProduct(newProduct), HttpStatus.OK);
 	}
 
+	// Update Product by productId
 	@PutMapping("/{id}")
-	Product updateProduct(@RequestBody Product newProduct, @PathVariable Long id) {
-		return productRepository.findById(id)
-			.map(product -> {
-				product.setName(newProduct.getName());
-				product.setCategory(newProduct.getCategory());
-				product.setPrice(newProduct.getPrice());
-				product.setDescription(newProduct.getDescription());
-				return productRepository.save(product);
-		})
-		.orElseGet(() -> {
-			newProduct.setId(id);
-        return productRepository.save(newProduct);
-		});
+	ResponseEntity<Object> updateProduct(@RequestBody Product newProduct, @PathVariable Long id) {
+		return new ResponseEntity<>(productService.updateProduct(newProduct, id), HttpStatus.OK);
 	}
 
+	// Delete Product by productId
 	@DeleteMapping("/{id}")
-	void deleteProduct(@PathVariable Long id) {
-		productRepository.deleteById(id);
+	ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
+		productService.deleteProduct(id);
+		return new ResponseEntity<>("Product is deleted successfully", HttpStatus.OK);
 	}
 
 	// Count likes
 	@GetMapping("{productId}/likes")
-	Integer countLikes(@PathVariable final Long productId) {
-		return productRepository.findById(productId).map(product -> {
-			Integer likes = product.getLikes();
-			return likes;
-		}).orElseThrow(() -> new ProductNotFoundException(productId));
+	ResponseEntity<Object> countLikes(@PathVariable final Long productId) {
+		return new ResponseEntity<>(productService.countLikes(productId), HttpStatus.OK);
 	}
 
 	// Count sold
 	@GetMapping("{productId}/sold")
-	Integer countSold(@PathVariable final Long productId) {
-		return productRepository.findById(productId).map(product -> {
-			Integer sold = product.getSold();
-			return sold;
-		}).orElseThrow(() -> new ProductNotFoundException(productId));
+	ResponseEntity<Object> countSold(@PathVariable final Long productId) {
+		return new ResponseEntity<>(productService.countSold(productId), HttpStatus.OK);
 	}
 	
 }
