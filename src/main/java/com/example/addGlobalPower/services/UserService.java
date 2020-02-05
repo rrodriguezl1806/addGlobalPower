@@ -1,6 +1,7 @@
 package com.example.addGlobalPower.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.addGlobalPower.dto.ProductDto;
@@ -10,7 +11,7 @@ import com.example.addGlobalPower.entities.User;
 import com.example.addGlobalPower.repositories.ProductRepository;
 import com.example.addGlobalPower.repositories.ProductUserRepository;
 import com.example.addGlobalPower.repositories.UserRepository;
-import com.example.exception.UserNotFoundException;
+import com.example.exception.user.*;
 
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,12 @@ public class UserService {
 
   // Create new user
   public User createUser(User newUser) {
-    return userRepository.save(newUser);
+		// List<User> user = userRepository.findByEmail(newUser.getEmail());
+		// if (user.size() == 0) {
+			return userRepository.save(newUser);
+		// } else {
+		// 	return newUser;
+		// }
   }
 
   // Update user
@@ -63,9 +69,10 @@ public class UserService {
   }
 
   // Delete user
-  public void deleteUser(long userId) {
-    userRepository.deleteById(userId);
-  }
+	public void deleteUser(long userId) {
+		Optional<User> user = userRepository.findById(userId);
+		user.ifPresent(value -> userRepository.delete(value));
+	}
 
   // Get all products given userId
   public List<ProductDto> getProductsByUser(long userId) {
@@ -90,30 +97,36 @@ public class UserService {
   // Like product by user
   public void likeProduct(long userId, long productId) {
     List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
-		
-		ProductUser productUser = new ProductUser();
-		productUser.setProduct(productRepository.getOne(productId));
-		productUser.setUser(userRepository.getOne(userId));
-		boolean like = productUser.getUserLike();
-		Integer likes = productUser.getProduct().getLikes();
-		productUser.setUserLike(!like);
-		if (!like) {
-			productUser.getProduct().setLikes(likes + 1);
-		} else {
-			productUser.getProduct().setLikes(Math.decrementExact(likes - 1));
+		if (productUserList.size() == 0) {
+			ProductUser productUser = new ProductUser();
+			productUser.setProduct(productRepository.getOne(productId));
+			productUser.setUser(userRepository.getOne(userId));
+			boolean like = productUser.getUserLike();
+			Integer likes = productUser.getProduct().getLikes();
+			productUser.setUserLike(!like);
+			if (!like) {
+				productUser.getProduct().setLikes(likes + 1);
+			} else {
+				productUser.getProduct().setLikes(Math.decrementExact(likes - 1));
+			}
+			productUserRepository.save(productUser);
 		}
-		productUserRepository.save(productUser);
   }
 
   // Buy product by user
-  public void buyProduct(long userId, long productId) {
-    ProductUser productUser = new ProductUser();
-		productUser.setProduct(productRepository.getOne(productId));
-		productUser.setUser(userRepository.getOne(userId));
-
-		Integer sold = productUser.getProduct().getSold();
-		productUser.setBought(true);
-		productUser.getProduct().setSold(sold + 1);
-		productUserRepository.save(productUser);
+  public void buyProduct(long userId, long productId) throws Exception{
+    List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
+		if (productUserList.size() == 0) {
+			ProductUser productUser = new ProductUser();
+			productUser.setProduct(productRepository.getOne(productId));
+			productUser.setUser(userRepository.getOne(userId));
+	
+			Integer sold = productUser.getProduct().getSold();
+			productUser.setBought(true);
+			productUser.getProduct().setSold(sold + 1);
+			productUserRepository.save(productUser);
+		} else {
+			throw	new Exception("User not Found in deleteUser");
+		}
   }
 }

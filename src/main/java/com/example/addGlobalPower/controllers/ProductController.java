@@ -33,13 +33,21 @@ public class ProductController {
 	// Get Product by productId
 	@GetMapping("/{id}")
 	ResponseEntity<Object> productById(@PathVariable Long id) {
-		return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	// Create new Product
 	@PostMapping("")
 	ResponseEntity<Object> newProduct(@RequestBody Product newProduct) {
-		return new ResponseEntity<>(productService.createProduct(newProduct), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(productService.createProduct(newProduct), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	// Update Product by productId

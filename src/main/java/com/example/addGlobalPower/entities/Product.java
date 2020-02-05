@@ -19,6 +19,9 @@ public class Product {
     private long id;
 
     @NotNull
+    private String stockNumber;
+
+    @NotNull
     @Size(min = 1, max = 20, message = "The product's name must be between 1 and 10 characters")
     private String name;
 
@@ -113,6 +116,14 @@ public class Product {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getStockNumber() {
+        return stockNumber;
+    }
+
+    public void setStockNumber(String stockNumber) {
+        this.stockNumber = stockNumber;
     }
 
 }

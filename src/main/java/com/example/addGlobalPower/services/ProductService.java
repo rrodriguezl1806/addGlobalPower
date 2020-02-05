@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.addGlobalPower.entities.Product;
 import com.example.addGlobalPower.repositories.ProductRepository;
-import com.example.exception.ProductNotFoundException;
+import com.example.exception.product.*;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,12 +29,18 @@ public class ProductService {
   }
 
   public Product createProduct(Product product) {
-    return productRepository.save(product);
+    List<Product> productList = productRepository.findByStockNumber(product.getStockNumber());
+    if (productList.size() == 0) {
+      return productRepository.save(product);
+    } else {
+      return product;
+    }
   }
 
   public Product updateProduct(Product newProduct, long productId) {
     return productRepository.findById(productId)
 			.map(product -> {
+				product.setName(newProduct.getStockNumber());
 				product.setName(newProduct.getName());
 				product.setCategory(newProduct.getCategory());
 				product.setPrice(newProduct.getPrice());
