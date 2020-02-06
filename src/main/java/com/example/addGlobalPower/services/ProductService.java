@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.addGlobalPower.entities.Product;
 import com.example.addGlobalPower.repositories.ProductRepository;
-import com.example.exception.product.*;
+import com.example.addGlobalPower.exception.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,16 +25,11 @@ public class ProductService {
 
   public Product getProductById(long id) {
     return productRepository.findById(id)
-      .orElseThrow(() -> new ProductNotFoundException(id));
+      .orElseThrow(() -> new RecordNotFoundException("Could not find user with id " + id));
   }
 
   public Product createProduct(Product product) {
-    List<Product> productList = productRepository.findByStockNumber(product.getStockNumber());
-    if (productList.size() == 0) {
-      return productRepository.save(product);
-    } else {
-      return product;
-    }
+    return productRepository.save(product);
   }
 
   public Product updateProduct(Product newProduct, long productId) {
@@ -62,7 +57,7 @@ public class ProductService {
     return productRepository.findById(productId).map(product -> {
 			Integer likes = product.getLikes();
 			return likes;
-		}).orElseThrow(() -> new ProductNotFoundException(productId));
+		}).orElseThrow(() -> new RecordNotFoundException("Could not find user with id " + productId));
   }
 
   // Count Sold
@@ -70,7 +65,7 @@ public class ProductService {
     return productRepository.findById(productId).map(product -> {
 			Integer sold = product.getSold();
 			return sold;
-		}).orElseThrow(() -> new ProductNotFoundException(productId));
+		}).orElseThrow(() -> new RecordNotFoundException("Could not find user with id " + productId));
   }
 
 

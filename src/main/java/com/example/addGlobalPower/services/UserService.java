@@ -11,8 +11,7 @@ import com.example.addGlobalPower.entities.User;
 import com.example.addGlobalPower.repositories.ProductRepository;
 import com.example.addGlobalPower.repositories.ProductUserRepository;
 import com.example.addGlobalPower.repositories.UserRepository;
-import com.example.exception.user.*;
-
+import com.example.addGlobalPower.exception.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,20 +34,19 @@ public class UserService {
     this.productRepository = productRepository;
   }
 
-  // Get user by id
+	/**
+	 * Get user by id
+	 * @param userId userId
+	 * @return User
+	 */
   public User getUserById(long userId) {
 		return userRepository.findById(userId)
-			.orElseThrow(() -> new UserNotFoundException(userId));
+			.orElseThrow(() -> new RecordNotFoundException("Could not find user with id " + userId));
   }
 
   // Create new user
   public User createUser(User newUser) {
-		// List<User> user = userRepository.findByEmail(newUser.getEmail());
-		// if (user.size() == 0) {
-			return userRepository.save(newUser);
-		// } else {
-		// 	return newUser;
-		// }
+		return userRepository.save(newUser);
   }
 
   // Update user
@@ -115,7 +113,7 @@ public class UserService {
 
   // Buy product by user
   public void buyProduct(long userId, long productId) throws Exception{
-    List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
+		List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
 		if (productUserList.size() == 0) {
 			ProductUser productUser = new ProductUser();
 			productUser.setProduct(productRepository.getOne(productId));
@@ -126,7 +124,7 @@ public class UserService {
 			productUser.getProduct().setSold(sold + 1);
 			productUserRepository.save(productUser);
 		} else {
-			throw	new Exception("User not Found in deleteUser");
+			throw	new Exception("The user with id " + userId + " already bought the product with id " + productId);
 		}
   }
 }

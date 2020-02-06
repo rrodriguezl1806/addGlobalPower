@@ -19,6 +19,7 @@ public class Product {
     private long id;
 
     @NotNull
+    @Column(unique = true, name = "stockNumber")
     private String stockNumber;
 
     @NotNull

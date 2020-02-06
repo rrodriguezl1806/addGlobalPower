@@ -9,5 +9,5 @@ import com.example.addGlobalPower.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-  List<Product> findByStockNumber(String stockNumber);
+  // List<Product> findByStockNumber(String stockNumber);
 }

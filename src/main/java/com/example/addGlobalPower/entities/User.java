@@ -6,6 +6,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -16,15 +20,15 @@ public class User {
     private long id;
 
     @NotNull
-    @Size(min = 1, max = 10, message = "The first name must be between 1 and 10 characters")
+    @Size(min = 1, max = 10, message = "The first name must be between 1 and 10 characters.")
     @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Size(min = 1, max = 20, message = "The first name must be between 1 and 10 characters")
+    @Size(min = 1, max = 20, message = "The last name must be between 1 and 10 characters.")
     private String lastName;
 
     @NotNull
-    @Email
+    @Email(message = "The email is not valid.")
     @Column(unique = true, name = "email")
     private String email;
 

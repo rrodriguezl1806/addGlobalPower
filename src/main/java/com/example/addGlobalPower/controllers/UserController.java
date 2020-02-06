@@ -15,37 +15,32 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import com.example.addGlobalPower.entities.User;
+import com.example.addGlobalPower.repositories.UserRepository;
 import com.example.addGlobalPower.services.UserService;
+import com.example.addGlobalPower.exception.RecordNotFoundException;
 
 @RestController
 @RequestMapping("/users")
 class UserController {
 
 	private UserService userService;
+	private UserRepository userRepository;
 
-	public UserController(UserService userService) {
+	public UserController(UserService userService, UserRepository userRepository) {
 		this.userService = userService;
+		this.userRepository = userRepository;
 	}
 
 	// Get user by id
 	@GetMapping("/{userId}")
-	User userById(@PathVariable Long userId) {
-		return userService.getUserById(userId);
-		// try {
-		// 	return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
-		// } catch (Exception e) {
-		// 	return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		// }
+	ResponseEntity<User> userById(@PathVariable Long userId) {
+		return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
 	}
 
 	// Create new user
 	@PostMapping("")
-	ResponseEntity<Object> newUser(@Valid @RequestBody User newUser) {
-		try {
-			return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	ResponseEntity<User> newUser(@Valid @RequestBody User newUser) {
+		return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.OK);
 	}
 
 	// Update user
