@@ -1,5 +1,6 @@
 package com.example.addGlobalPower.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +26,20 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-      List<String> details = new ArrayList<>();
-      details.add(ex.getLocalizedMessage());
+    List<String> details = new ArrayList<>();
+
+    if(ex instanceof DataIntegrityViolationException){
+      HttpStatus status = HttpStatus.BAD_REQUEST;
+      details.add(ex.getCause().getCause().getLocalizedMessage());
+      CustomErrorResponse errorMessage = new CustomErrorResponse(new Date(), status,"Duplicate entry", details);
+      return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
+    } else {
+      details.add(ex.getMessage());
       HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
       CustomErrorResponse errorMessage = new CustomErrorResponse(new Date(), status,"Server Error", details);
       return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @ExceptionHandler(RecordNotFoundException.class)
@@ -66,5 +76,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     CustomErrorResponse errorMessage = new CustomErrorResponse(new Date(), status, "Validation Failed", details);
     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
   }
+
+  
 
 }

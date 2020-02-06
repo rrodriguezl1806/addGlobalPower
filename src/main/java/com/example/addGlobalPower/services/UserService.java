@@ -93,38 +93,52 @@ public class UserService {
   }
 
   // Like product by user
-  public void likeProduct(long userId, long productId) {
-    List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
+  public void likeProduct(long userId, long productId) throws Exception {
+		List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
 		if (productUserList.size() == 0) {
 			ProductUser productUser = new ProductUser();
-			productUser.setProduct(productRepository.getOne(productId));
-			productUser.setUser(userRepository.getOne(userId));
-			boolean like = productUser.getUserLike();
-			Integer likes = productUser.getProduct().getLikes();
-			productUser.setUserLike(!like);
-			if (!like) {
-				productUser.getProduct().setLikes(likes + 1);
-			} else {
-				productUser.getProduct().setLikes(Math.decrementExact(likes - 1));
-			}
-			productUserRepository.save(productUser);
+			doLike(productUser, productId, userId);
+		} else if (!productUserList.get(0).getUserLike()) {
+			ProductUser productUser = productUserList.get(0);
+			doLike(productUser, productId, userId);
+		} else {
+			throw	new Exception("The user with id " + userId + " already did like to this product " + productId);
 		}
-  }
+	}
+	private void doLike(ProductUser productUser, long productId, long userId) {
+		productUser.setProduct(productRepository.getOne(productId));
+		productUser.setUser(userRepository.getOne(userId));
+		boolean like = productUser.getUserLike();
+		Integer likes = productUser.getProduct().getLikes();
+		productUser.setUserLike(!like);
+		if (!like) {
+			productUser.getProduct().setLikes(likes + 1);
+		} else {
+			productUser.getProduct().setLikes(Math.decrementExact(likes - 1));
+		}
+		productUserRepository.save(productUser);
+	}
 
   // Buy product by user
   public void buyProduct(long userId, long productId) throws Exception{
 		List<ProductUser> productUserList = productUserRepository.findProductUserByUserIdAndProductId(userId, productId);
-		if (productUserList.size() == 0) {
+		if (productUserList.size() == 0 ) {
 			ProductUser productUser = new ProductUser();
-			productUser.setProduct(productRepository.getOne(productId));
-			productUser.setUser(userRepository.getOne(userId));
-	
-			Integer sold = productUser.getProduct().getSold();
-			productUser.setBought(true);
-			productUser.getProduct().setSold(sold + 1);
-			productUserRepository.save(productUser);
+			buy(productUser, productId, userId);
+		} else if (!productUserList.get(0).getBought()) {
+			ProductUser productUser = productUserList.get(0);
+			buy(productUser, productId, userId);
 		} else {
 			throw	new Exception("The user with id " + userId + " already bought the product with id " + productId);
 		}
-  }
+	}
+	private void buy(ProductUser productUser, long productId, long userId) {
+		productUser.setProduct(productRepository.getOne(productId));
+		productUser.setUser(userRepository.getOne(userId));
+
+		Integer sold = productUser.getProduct().getSold();
+		productUser.setBought(true);
+		productUser.getProduct().setSold(sold + 1);
+		productUserRepository.save(productUser);
+	}
 }
