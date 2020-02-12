@@ -5,6 +5,8 @@ import java.util.List;
 import com.example.addGlobalPower.entities.Product;
 import com.example.addGlobalPower.repositories.ProductRepository;
 import com.example.addGlobalPower.exception.RecordNotFoundException;
+
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,17 +25,21 @@ public class ProductService {
     return productRepository.findAll();
   }
 
-  public List<Product> getProducts(String category, Integer minPrice, Integer maxPrice) {
-    if (category.equals("all") && minPrice.equals(0) && maxPrice.equals(1000)) { // if category is all and no price
-      return productRepository.findAll();
-    } else if (!category.equals("all") && minPrice.equals(0) && maxPrice.equals(1000)) { // if category is not all and no price
-      return productRepository.findProductByCategoryOrderBySoldAsc(category);
-    } else if (category.equals("all") && (!minPrice.equals(0) || !maxPrice.equals(0))) { // if category is all and price
-      return productRepository.findProductByPriceOrderByPriceAsc(minPrice, maxPrice);
-    } else { // if category is not all and price
-      return productRepository.findProductByCategoryAndPriceOrderBySoldAsc(category, minPrice, maxPrice);
-    }
-  }
+  // public List<Product> searchProducts(Specification<Product> spec) {
+  //   return productRepository.findAll(Specification<Product> spec);
+  // }
+
+  // public List<Product> getProducts(String category, Integer minPrice, Integer maxPrice) {
+  //   if (category.equals("all") && minPrice.equals(0) && maxPrice.equals(1000)) { // if category is all and no price
+  //     return productRepository.findAll();
+  //   } else if (!category.equals("all") && minPrice.equals(0) && maxPrice.equals(1000)) { // if category is not all and no price
+  //     return productRepository.findProductByCategoryOrderBySoldAsc(category);
+  //   } else if (category.equals("all") && (!minPrice.equals(0) || !maxPrice.equals(0))) { // if category is all and price
+  //     return productRepository.findProductByPriceOrderByPriceAsc(minPrice, maxPrice);
+  //   } else { // if category is not all and price
+  //     return productRepository.findProductByCategoryAndPriceOrderBySoldAsc(category, minPrice, maxPrice);
+  //   }
+  // }
 
   public Product getProductById(long id) {
     return productRepository.findById(id)

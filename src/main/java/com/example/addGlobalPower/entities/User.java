@@ -16,17 +16,19 @@ public class User {
     private long id;
 
     @NotNull
-    @Size(min = 1, max = 10, message = "The first name must be between 1 and 10 characters.")
+    @Size(min = 1, max = 10, message = "The First name must be between 1 and 10 characters.")
     @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Size(min = 1, max = 20, message = "The last name must be between 1 and 10 characters.")
+    @Size(min = 1, max = 20, message = "The Last name must be between 1 and 10 characters.")
     private String lastName;
 
     @NotNull
-    @Email(message = "The email is not valid.")
+    @Email(message = "The Email is not valid.")
     @Column(unique = true, name = "email")
     private String email;
+
+    private String password;
 
     private String phone;
 
@@ -93,6 +95,14 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 

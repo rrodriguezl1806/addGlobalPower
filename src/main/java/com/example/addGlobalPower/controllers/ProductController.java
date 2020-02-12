@@ -1,5 +1,6 @@
 package com.example.addGlobalPower.controllers;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,17 +14,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.example.addGlobalPower.entities.Product;
+import com.example.addGlobalPower.repositories.ProductRepository;
 import com.example.addGlobalPower.services.ProductService;
+import com.example.addGlobalPower.specifications.ProductSpecificationsBuilder;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
 	private ProductService productService;
+	private ProductRepository productRepository;
 	
-	ProductController(ProductService productService) {
+	ProductController(ProductService productService, ProductRepository productRepository) {
 		this.productService = productService;
+		this.productRepository = productRepository;
 	}
 	
 	// Get all Products
@@ -33,12 +42,25 @@ public class ProductController {
 	// }
 
 	@GetMapping("")
-	ResponseEntity<Object> products(
-		@RequestParam(defaultValue = "all") String category, 
-		@RequestParam(defaultValue = "0") Integer minPrice, 
-		@RequestParam(defaultValue = "1000") Integer maxPrice) {
-		return new ResponseEntity<>(productService.getProducts(category, minPrice, maxPrice), HttpStatus.OK);
-	}
+	List<Product> search(@RequestParam(value = "search") String search) {
+		ProductSpecificationsBuilder builder = new ProductSpecificationsBuilder();
+		Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+		Matcher matcher = pattern.matcher(search + ",");
+		while (matcher.find()) {
+			builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+		}
+
+		Specification<Product> spec = builder.build();
+		return productRepository.findAll(spec);
+  }
+
+	// @GetMapping("")
+	// ResponseEntity<Object> products(
+	// 	@RequestParam(defaultValue = "all") String category, 
+	// 	@RequestParam(defaultValue = "0") Integer minPrice, 
+	// 	@RequestParam(defaultValue = "1000") Integer maxPrice) {
+	// 	return new ResponseEntity<>(productService.getProducts(category, minPrice, maxPrice), HttpStatus.OK);
+	// }
 
 	// Get Product by productId
 	@GetMapping("/{id}")
