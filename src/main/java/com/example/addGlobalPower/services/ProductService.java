@@ -23,6 +23,18 @@ public class ProductService {
     return productRepository.findAll();
   }
 
+  public List<Product> getProducts(String category, Integer minPrice, Integer maxPrice) {
+    if (category.equals("all") && minPrice.equals(0) && maxPrice.equals(1000)) { // if category is all and no price
+      return productRepository.findAll();
+    } else if (!category.equals("all") && minPrice.equals(0) && maxPrice.equals(1000)) { // if category is not all and no price
+      return productRepository.findProductByCategoryOrderBySoldAsc(category);
+    } else if (category.equals("all") && (!minPrice.equals(0) || !maxPrice.equals(0))) { // if category is all and price
+      return productRepository.findProductByPriceOrderByPriceAsc(minPrice, maxPrice);
+    } else { // if category is not all and price
+      return productRepository.findProductByCategoryAndPriceOrderBySoldAsc(category, minPrice, maxPrice);
+    }
+  }
+
   public Product getProductById(long id) {
     return productRepository.findById(id)
       .orElseThrow(() -> new RecordNotFoundException("Could not find user with id " + id));

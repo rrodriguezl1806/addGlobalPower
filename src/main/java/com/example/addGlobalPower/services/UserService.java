@@ -114,7 +114,7 @@ public class UserService {
 		if (!like) {
 			productUser.getProduct().setLikes(likes + 1);
 		} else {
-			productUser.getProduct().setLikes(Math.decrementExact(likes - 1));
+			productUser.getProduct().setLikes(likes - 1);
 		}
 		productUserRepository.save(productUser);
 	}

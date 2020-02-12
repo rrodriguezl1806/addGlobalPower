@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.addGlobalPower.entities.Product;
@@ -25,9 +27,17 @@ public class ProductController {
 	}
 	
 	// Get all Products
+	// @GetMapping("")
+	// ResponseEntity<Object> allProducts() {
+	// 	return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+	// }
+
 	@GetMapping("")
-	ResponseEntity<Object> allProducts() {
-		return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+	ResponseEntity<Object> products(
+		@RequestParam(defaultValue = "all") String category, 
+		@RequestParam(defaultValue = "0") Integer minPrice, 
+		@RequestParam(defaultValue = "1000") Integer maxPrice) {
+		return new ResponseEntity<>(productService.getProducts(category, minPrice, maxPrice), HttpStatus.OK);
 	}
 
 	// Get Product by productId
