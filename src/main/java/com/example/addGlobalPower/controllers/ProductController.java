@@ -1,20 +1,12 @@
 package com.example.addGlobalPower.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +14,7 @@ import com.example.addGlobalPower.entities.Product;
 import com.example.addGlobalPower.repositories.ProductRepository;
 import com.example.addGlobalPower.services.ProductService;
 import com.example.addGlobalPower.specifications.ProductSpecificationsBuilder;
+
 
 @RestController
 @RequestMapping("/products")
@@ -36,23 +29,23 @@ public class ProductController {
 	}
 	
 	// Get all Products
-	// @GetMapping("")
-	// ResponseEntity<Object> allProducts() {
-	// 	return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
-	// }
+	 @GetMapping("")
+	 ResponseEntity allProducts() {
+	 	return ResponseEntity.ok(productService.getAllProducts());
+	 }
 
-	@GetMapping("")
-	List<Product> search(@RequestParam(value = "search") String search) {
+	@GetMapping("search")
+	ResponseEntity search(@RequestParam(value = "search") String search, Pageable pageable) {
 		ProductSpecificationsBuilder builder = new ProductSpecificationsBuilder();
 		Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
 		Matcher matcher = pattern.matcher(search + ",");
 		while (matcher.find()) {
 			builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
 		}
-
 		Specification<Product> spec = builder.build();
-		return productRepository.findAll(spec);
-  }
+		Page<Product> all = productRepository.findAll(spec, pageable);
+		return ResponseEntity.ok(all);
+	}
 
 	// @GetMapping("")
 	// ResponseEntity<Object> products(

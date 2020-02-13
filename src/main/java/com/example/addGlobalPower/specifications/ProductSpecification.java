@@ -12,7 +12,11 @@ public class ProductSpecification implements Specification<Product> {
  
   private SearchCriteria criteria;
 
-  @Override
+    public ProductSpecification(SearchCriteria criteria) {
+        this.criteria = criteria;
+    }
+
+    @Override
   public Predicate toPredicate
     (Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
