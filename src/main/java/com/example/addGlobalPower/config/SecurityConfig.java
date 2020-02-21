@@ -23,28 +23,28 @@ import javax.annotation.Resource;
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Resource(name = "userService")
-//	private UserDetailsService userDetailsService;
-//
-//	@Override
-//	@Bean
-//	public AuthenticationManager authenticationManagerBean() throws Exception {
-//		return super.authenticationManagerBean();
-//	}
-//
-//	@Bean
-//	public BCryptPasswordEncoder encoder(){
-//		return new BCryptPasswordEncoder();
-//	}
-//
-//	@Autowired
-//	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//		/*BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//		String a1 = passwordEncoder.encode("devglan-secret");
-//		String a2 = passwordEncoder.encode("password");*/
-//		auth.userDetailsService(userDetailsService)
-//				.passwordEncoder(encoder());
-//	}
+	@Resource(name = "userService")
+	private UserDetailsService userDetailsService;
+
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@Bean
+	public BCryptPasswordEncoder encoder(){
+		return new BCryptPasswordEncoder();
+	}
+
+	@Autowired
+	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+		/*BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String a1 = passwordEncoder.encode("devglan-secret");
+		String a2 = passwordEncoder.encode("password");*/
+		auth.userDetailsService(userDetailsService)
+				.passwordEncoder(encoder());
+	}
 
 
 

@@ -28,6 +28,8 @@ public class User implements UserDetails {
     @Email(message = "The Email is not valid.")
     private String email;
 
+    @NotNull(message="valid username required")
+    @Column(name = "username")
     private String username;
 
     private String password;
