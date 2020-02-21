@@ -2,6 +2,7 @@ package com.example.addGlobalPower.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,9 @@ import javax.validation.Valid;
 import com.example.addGlobalPower.entities.User;
 import com.example.addGlobalPower.services.UserService;
 
+import java.security.Principal;
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 class UserController {
@@ -25,6 +29,15 @@ class UserController {
 
 	public UserController(UserService userService) {
 		this.userService = userService;
+	}
+
+	@GetMapping("/userinfo")
+	public Principal user(Principal user) {
+		String username = ((OAuth2Authentication) user).getUserAuthentication().getPrincipal().toString();
+		List<User> res = userService.findByUsername(username);
+		User loginUser = res.isEmpty() ? null : res.get(0);
+		userService.createUser(loginUser);
+		return user;
 	}
 
 	// Get user by id

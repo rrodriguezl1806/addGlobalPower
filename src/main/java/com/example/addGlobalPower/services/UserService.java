@@ -43,6 +43,10 @@ public class UserService implements UserDetailsService {
 				.orElseThrow(() -> new RecordNotFoundException("Could not find user with id " + userId));
 	  }
 
+	public List<User> findByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+
 	  // Create new user
 	  public User createUser(User newUser) {
 			return userRepository.save(newUser);
