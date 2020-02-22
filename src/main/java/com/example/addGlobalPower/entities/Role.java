@@ -10,7 +10,7 @@ import java.util.List;
 @ApiModel(description = "Role App Entity")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name="app_role")
+@Table(name="role")
 public class Role {
     private static final long serialVersionUID = 1L;
     @Id

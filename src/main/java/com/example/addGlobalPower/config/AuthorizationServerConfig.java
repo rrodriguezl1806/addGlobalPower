@@ -44,8 +44,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	static final String TRUST = "trust";
 
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
+
+	public AuthorizationServerConfig(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
 
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {

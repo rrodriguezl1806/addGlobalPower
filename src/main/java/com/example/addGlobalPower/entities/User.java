@@ -2,6 +2,7 @@ package com.example.addGlobalPower.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -9,7 +10,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class User implements UserDetails {
@@ -34,11 +38,27 @@ public class User implements UserDetails {
 
     private String password;
 
-    private String token;
-
     private String phone;
 
     private String address;
+
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked;
+
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired;
+
+    @Column(name = "credential_non_expired")
+    private boolean credentialNonExpired;
+
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
+
+    @Column(name = "date_created")
+    private Date dateCreated;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserRole> userRole;
 
     @OneToMany(mappedBy = "user")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -47,7 +67,8 @@ public class User implements UserDetails {
     public User() {
     }
 
-	public long getId() {
+
+    public long getId() {
         return id;
     }
 
@@ -79,20 +100,30 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public List<ProductUser> getProductUser() {
-        return productUser;
-    }
-
-    public void setProductUser(List<ProductUser> productUser) {
-        this.productUser = productUser;
     }
 
     public String getAddress() {
@@ -103,56 +134,73 @@ public class User implements UserDetails {
         this.address = address;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return this.accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return this.accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return this.credentialNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.isEnabled;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 
-    public String getToken() {
-        return token;
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public boolean isCredentialNonExpired() {
+        return credentialNonExpired;
     }
 
+    public List<ProductUser> getProductUser() {
+        return productUser;
+    }
 
+    public void setProductUser(List<ProductUser> productUser) {
+        this.productUser = productUser;
+    }
+
+    public List<UserRole> getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(List<UserRole> userRole) {
+        this.userRole = userRole;
+    }
+
+    public void setCredentialNonExpired(boolean credentialNonExpired) {
+        this.credentialNonExpired = credentialNonExpired;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> grantedAuthorities = this.getUserRole()
+                .stream()
+                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
+                .collect(Collectors.toSet());
+        return grantedAuthorities;
+    }
 
 }
